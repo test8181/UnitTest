@@ -1,0 +1,27 @@
+name: Build UWP App
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+
+      - name: Restore NuGet packages
+        run: nuget restore SampleCalc.sln
+
+      - name: Build UWP app
+        run: msbuild SampleCalc.sln /p:Configuration=Release /p:Platform=x64 /p:AppxBundle=Never
+
+      #- name: Create app package
+      # run: msbuild YourUWPProject.csproj /t:Package /p:Configuration=Release
