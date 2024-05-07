@@ -25,3 +25,12 @@ jobs:
 
       #- name: Create app package
       # run: msbuild YourUWPProject.csproj /t:Package /p:Configuration=Release
+
+      - name: Setup VSTest.console.exe
+        uses: darenm/Setup-VSTest@v1.3
+        
+      - name: Build Test
+        run: msbuild {{github.workspace}}\SampleCalcTest\SampleCalcTest.csproj \t:Build \p:Configuration=Release /p:Platform=x64
+          
+      - name: Run Test
+        run: vstest.console.exe /Logger:trx /Platform:x64 /framework:frameworkuap10 {{github.workspace}}\SampleCalcTest\bin\x64\Release\SampleCalcTest.build.appxrecipe
