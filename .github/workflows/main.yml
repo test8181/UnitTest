@@ -34,3 +34,9 @@ jobs:
           
       - name: Run Test
         run: vstest.console.exe /Logger:trx /Platform:x64 /framework:frameworkuap10 ${{github.workspace}}\SampleCalcTest\bin\x64\Release\SampleCalcTest.build.appxrecipe
+
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2.16.1
+        with:
+          files: ${{github.workspace}}\TestResults\*.trx
+        
